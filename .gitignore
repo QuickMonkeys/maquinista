@@ -1,0 +1,5 @@
+.vagrant/
+cookbooks/
+tmp/
+Berksfile.lock
+Vagrantfile~
