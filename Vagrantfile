@@ -45,7 +45,7 @@ require_plugins \
 better_path = File.expand_path(site['local_path'], MAQUINISTA_PATH) 
 first_site = Dir.glob(File.join(better_path, "*", "")).first
 ruby_version = site['ruby_version']
-ENV['RUBY_VERSION'] = ruby_version
+ENV['RBVER'] = ruby_version
 
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-16.04"
@@ -59,7 +59,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000 
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
   config.vm.synced_folder first_site, "/maquinista/",
@@ -91,10 +91,10 @@ Vagrant.configure("2") do |config|
       rbenv: {
         user_installs: [{
           user: 'vagrant',
-          rubies: ["2.3.0"],
-          global: "2.3.0" ,
+          rubies: [ruby_version],
+          global: ruby_version ,
           gems: {
-            "2.3.0"  => [
+            ruby_version  => [
               { name: "bundler" }, 
               { name: "rake" }
             ]

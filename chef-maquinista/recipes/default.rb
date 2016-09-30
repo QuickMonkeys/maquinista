@@ -10,7 +10,7 @@ mysql_service 'default' do
 end
 
 rbenv_script "bundle_install" do
-  rbenv_version ENV['RUBY_VERSION']
+  rbenv_version ENV['RBVER']
   user          "vagrant"
   group         "vagrant"
   cwd           "/maquinista/"
@@ -18,7 +18,7 @@ rbenv_script "bundle_install" do
 end
 
 rbenv_script "setup_database" do
-  rbenv_version ENV['RUBY_VERSION']
+  rbenv_version ENV['RBVER']
   user          "vagrant"
   group         "vagrant"
   cwd           "/maquinista/"
