@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
 
   # Fix for: "stdin: is not a tty"
   # https://github.com/mitchellh/vagrant/issues/1673#issuecomment-28288042
-  config.ssh.shell = %{bash -c 'BASH_ENV=/etc/profile exec bash'}
+  #config.ssh.shell = %{bash -c 'BASH_ENV=/etc/profile exec bash'}
 
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 3000, host: 3000 
@@ -84,7 +84,11 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "ruby_rbenv::user"
     chef.add_recipe "vim"
     chef.add_recipe "libmysqlclient"
+    chef.add_recipe "postgresql::server"
+    chef.add_recipe "postgresql::client"
+    chef.add_recipe "maquinista::mysql"
     chef.add_recipe "maquinista"
+    
 
     # Install Ruby version and Bundler
     chef.json = {
@@ -100,6 +104,17 @@ Vagrant.configure("2") do |config|
             ]
           }
         }]
+      }, 
+      maquinista: {
+        ruby_version: ruby_version
+      }, 
+      "postgresql": {
+        "version": "9.3", 
+        "enable_pgdg_apt": true,
+        "initdb_locale": "en_US.utf8", 
+        "password": {
+          "postgres": "maquinista"
+        }
       }
     }
   end

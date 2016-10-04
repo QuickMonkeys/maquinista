@@ -1,16 +1,14 @@
 include_recipe "ruby_rbenv"
 
+rv = node['maquinista']['ruby_version']
 
-mysql_service 'default' do
-  port '3306'
-  bind_address '0.0.0.0'
-  version '5.7'
-  initial_root_password ''
-  action [:create, :start]
+execute "addlocale" do 
+  command "locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8"
+  action :run 
 end
 
 rbenv_script "bundle_install" do
-  rbenv_version ENV['RBVER']
+  rbenv_version rv
   user          "vagrant"
   group         "vagrant"
   cwd           "/maquinista/"
@@ -18,7 +16,7 @@ rbenv_script "bundle_install" do
 end
 
 rbenv_script "setup_database" do
-  rbenv_version ENV['RBVER']
+  rbenv_version rv
   user          "vagrant"
   group         "vagrant"
   cwd           "/maquinista/"
